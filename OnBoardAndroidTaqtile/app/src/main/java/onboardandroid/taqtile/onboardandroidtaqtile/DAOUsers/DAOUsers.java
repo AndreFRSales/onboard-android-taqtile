@@ -5,37 +5,35 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import onboardandroid.taqtile.onboardandroidtaqtile.Entities.Users;
+
 /**
  * Created by taqtile on 1/5/16.
  */
-public class Users {
+public class DAOUsers {
 
     public static final String TAG_LOG_METHOD = "Name of Method";
+    public static final String TAG_LOG_USER = "Information User";
 
 
     private HashMap<Integer, Users> hashMapOfUsers = new HashMap<>();
-    private Integer id;
-    private String first_name;
-    private String last_name;
-    private String avatar;
 
-    public Users(Integer id, String first_name, String last_name, String avatar) {
-        this.id = id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.avatar = avatar;
-    }
 
     public ArrayList<Users> list(Integer pagina) {
 
         ArrayList<Users> list = new ArrayList<>();
 
         //Filling the auxiliar List.
-        for (int count = pagina * 10; count < count + 10; count++) {
+        for (int count = (pagina-1) * 10; count < ((pagina-1) * 10) + 10; count++) {
             list.add(this.hashMapOfUsers.get(count));
+            Log.i(TAG_LOG_USER, list.get(count - ((pagina - 1) * 10)).getFirst_name());
+            Log.i(TAG_LOG_USER, list.get(count - ((pagina-1) * 10)).getLast_name());
+            Log.i(TAG_LOG_USER, list.get(count - ((pagina-1) * 10)).getAvatar());
+            Log.i(TAG_LOG_USER, list.get(count - ((pagina-1) * 10)).getId().toString());
         }
 
         Log.d(TAG_LOG_METHOD, "list");
+
 
         return list;
     }

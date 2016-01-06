@@ -2,18 +2,40 @@ package onboardandroid.taqtile.onboardandroidtaqtile.Activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers.DAOUsers;
+import onboardandroid.taqtile.onboardandroidtaqtile.Entities.Users;
 import onboardandroid.taqtile.onboardandroidtaqtile.R;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private Integer MAX_USERS = 20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fillingUsers();
+    }
+
+    private void fillingUsers() {
+
+        DAOUsers daoUsers = new DAOUsers();
+
+        for(int count = 0; count < MAX_USERS; count++){
+
+            Users users = new Users(count, "name " + count, "last_name" + count, "avatar " + count);
+            daoUsers.incrementViewCount(count, users);
+
+        }
+
+        Log.d("Size of Hash", daoUsers.getViewCount().toString());
+        daoUsers.list(1);
     }
 
     @Override
