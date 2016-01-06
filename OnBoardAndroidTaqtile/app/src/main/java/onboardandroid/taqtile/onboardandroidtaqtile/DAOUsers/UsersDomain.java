@@ -10,12 +10,12 @@ import onboardandroid.taqtile.onboardandroidtaqtile.Entities.Users;
 /**
  * Created by taqtile on 1/5/16.
  */
-public class DAOUsers {
+public class UsersDomain {
 
     public static final String TAG_LOG_METHOD = "Name of Method";
     public static final String TAG_LOG_USER = "Information User";
 
-
+    private HashMap<Integer, Integer> hashMapViewCount = new HashMap<>();
     private HashMap<Integer, Users> hashMapOfUsers = new HashMap<>();
 
 
@@ -43,20 +43,30 @@ public class DAOUsers {
 
         this.hashMapOfUsers.put(id, user);
 
+        if(hashMapViewCount.get(id) == null) {
+            hashMapViewCount.put(id, 1);
+        }
+        else {
+            int count = hashMapViewCount.get(id);
+            hashMapViewCount.put(id, count + 1);
+        }
+
+
         Log.d(TAG_LOG_METHOD, "incrementViewCount");
     }
 
     public void resetViewCount(Integer id, Users users) {
 
         this.hashMapOfUsers.remove(id);
+        hashMapViewCount.remove(id);
         Log.d(TAG_LOG_METHOD, "resetViewCount");
     }
 
-    public Integer getViewCount(){
+    public Integer getViewCount(Integer id){
 
         Log.d(TAG_LOG_METHOD, "getViewCount");
 
-        return this.hashMapOfUsers.size();
+        return this.hashMapOfUsers.get(id) == null || hashMapViewCount.get(id) == 0 ? 0 : hashMapViewCount.get(id);
     }
 
 

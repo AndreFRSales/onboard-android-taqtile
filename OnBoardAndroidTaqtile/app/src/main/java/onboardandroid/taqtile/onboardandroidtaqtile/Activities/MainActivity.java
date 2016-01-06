@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers.DAOUsers;
+import onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers.UsersDomain;
 import onboardandroid.taqtile.onboardandroidtaqtile.Entities.Users;
 import onboardandroid.taqtile.onboardandroidtaqtile.R;
 
@@ -25,17 +26,16 @@ public class MainActivity extends ActionBarActivity {
 
     private void fillingUsers() {
 
-        DAOUsers daoUsers = new DAOUsers();
+        UsersDomain usersDomain = new UsersDomain();
 
         for(int count = 0; count < MAX_USERS; count++){
 
             Users users = new Users(count, "name " + count, "last_name" + count, "avatar " + count);
-            daoUsers.incrementViewCount(count, users);
+            usersDomain.incrementViewCount(count, users);
 
         }
-
-        Log.d("Size of Hash", daoUsers.getViewCount().toString());
-        daoUsers.list(1);
+        
+        usersDomain.list(1);
     }
 
     @Override
