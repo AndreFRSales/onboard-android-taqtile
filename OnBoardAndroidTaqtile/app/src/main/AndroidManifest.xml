@@ -3,6 +3,7 @@
     package="onboardandroid.taqtile.onboardandroidtaqtile" >
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,6 +16,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.UserDetailActivity"
+            android:label="@string/title_activity_user_detail"
+            android:parentActivityName=".Activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="onboardandroid.taqtile.onboardandroidtaqtile.Activities.MainActivity" />
         </activity>
     </application>
 

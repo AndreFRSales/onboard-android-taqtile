@@ -3,4 +3,19 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_main_activity">Users</string>
+    <string name="title_activity_user_detail">UserDetailActivity</string>
+    <string name="details">Details</string>
+
+    <!-- UserDetailActivity -->
+    <string name="user_text_id">ID</string>
+    <string name="user_text_first_name">First Name</string>
+    <string name="user_text_last_name">Last Name</string>
+    <string name="user_text_avatar">Avatar</string>
+    <string name="id">ID</string>
+    <string name="last_name">Last Name</string>
+    <string name="avatar">Avatar</string>
+    <string name="first_name">First Name</string>
+
+
 </resources>

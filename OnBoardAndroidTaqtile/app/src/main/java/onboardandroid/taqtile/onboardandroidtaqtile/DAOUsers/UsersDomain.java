@@ -2,6 +2,7 @@ package onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,9 +40,7 @@ public class UsersDomain {
     }
 
 
-    public void incrementViewCount(Integer id, Users user) {
-
-        this.hashMapOfUsers.put(id, user);
+    public void incrementViewCount(Integer id) {
 
         if(hashMapViewCount.get(id) == null) {
             hashMapViewCount.put(id, 1);
@@ -51,8 +50,13 @@ public class UsersDomain {
             hashMapViewCount.put(id, count + 1);
         }
 
-
         Log.d(TAG_LOG_METHOD, "incrementViewCount");
+    }
+
+    public void addUser(Integer id, Users user){
+
+        this.hashMapOfUsers.put(id, user);
+
     }
 
     public void resetViewCount(Integer id, Users users) {
@@ -65,9 +69,22 @@ public class UsersDomain {
     public Integer getViewCount(Integer id){
 
         Log.d(TAG_LOG_METHOD, "getViewCount");
+        if(hashMapViewCount.size() == 0 || hashMapViewCount.get(id) == null)
+            return 0;
+        else
+            return hashMapViewCount.get(id);
 
-        return this.hashMapOfUsers.get(id) == null || hashMapViewCount.get(id) == 0 ? 0 : hashMapViewCount.get(id);
     }
 
+    public static ArrayList<String> genereateOrderOfUsersFields(){
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add("id");
+        list.add("first_name");
+        list.add("last_name");
+        list.add("avatar");
+
+        return list;
+    }
 
 }

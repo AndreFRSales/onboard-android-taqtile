@@ -1,42 +1,52 @@
 package onboardandroid.taqtile.onboardandroidtaqtile.Activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers.DAOUsers;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import onboardandroid.taqtile.onboardandroidtaqtile.Activities.Adapters.RecyclerViewUsersAdapter;
 import onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers.UsersDomain;
 import onboardandroid.taqtile.onboardandroidtaqtile.Entities.Users;
+import onboardandroid.taqtile.onboardandroidtaqtile.MainApplication;
 import onboardandroid.taqtile.onboardandroidtaqtile.R;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends BaseActivity {
 
-    private Integer MAX_USERS = 20;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.rvContatos)
+    android.support.v7.widget.RecyclerView rvContatos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        fillingUsers();
+        createToolbar(getResources().getString(R.string.title_main_activity));
+
+
+
+        settingRecyclerView();
     }
 
-    private void fillingUsers() {
+    private void settingRecyclerView() {
 
-        UsersDomain usersDomain = new UsersDomain();
+        rvContatos.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
+        rvContatos.setLayoutManager(llm);
+        RecyclerViewUsersAdapter recyclerViewUsersAdapter = new RecyclerViewUsersAdapter(getApplicationContext(), 1);
+        rvContatos.setAdapter(recyclerViewUsersAdapter);
 
-        for(int count = 0; count < MAX_USERS; count++){
-
-            Users users = new Users(count, "name " + count, "last_name" + count, "avatar " + count);
-            usersDomain.incrementViewCount(count, users);
-
-        }
-        
-        usersDomain.list(1);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,14 +1,17 @@
 package onboardandroid.taqtile.onboardandroidtaqtile.Entities;
 
+import java.io.Serializable;
+
 /**
  * Created by taqtile on 1/5/16.
  */
-public class Users {
+public class Users implements Serializable {
 
     private Integer id;
-    private String first_name;
     private String last_name;
     private String avatar;
+    private String first_name;
+
 
     public Users(Integer id, String first_name, String last_name, String avatar) {
         this.id = id;
@@ -48,4 +51,6 @@ public class Users {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+
 }
