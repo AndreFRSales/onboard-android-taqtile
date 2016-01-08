@@ -1,5 +1,6 @@
 package onboardandroid.taqtile.onboardandroidtaqtile.Activities.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -9,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
+import onboardandroid.taqtile.onboardandroidtaqtile.Activities.MainActivity;
 import onboardandroid.taqtile.onboardandroidtaqtile.Activities.UserDetailActivity;
 import onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers.UsersDomain;
 import onboardandroid.taqtile.onboardandroidtaqtile.Entities.Users;
@@ -25,14 +25,17 @@ import onboardandroid.taqtile.onboardandroidtaqtile.R;
 public class RecyclerViewUsersAdapter extends RecyclerView.Adapter<RecyclerViewUsersAdapter.ViewHolder> {
 
     UsersDomain mUsersDomain;
+    List<Users> usersList;
     private Context mcontext;
-    private Integer page;
+    private Integer number_page;
     public final static String TAG_USER = "user";
 
-    public RecyclerViewUsersAdapter(Context context, Integer page){
+
+    public RecyclerViewUsersAdapter(Context context, List<Users> usersList, Integer number_page) {
         this.mcontext = context;
-        this.page = page;
-        mUsersDomain = MainApplication.getUsersDomain();
+        this.usersList = usersList;
+        mUsersDomain = new UsersDomain(MainApplication.getDatabase());
+        this.number_page = number_page;
     }
 
     @Override
@@ -44,17 +47,19 @@ public class RecyclerViewUsersAdapter extends RecyclerView.Adapter<RecyclerViewU
 
     @Override
     public void onBindViewHolder(RecyclerViewUsersAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.txtIdUser.setText("ID: " + mUsersDomain.list(page).get(i).getId().toString());
-        viewHolder.txtNameAndLast.setText(mUsersDomain.list(page).get(i).getFirst_name() + " " + mUsersDomain.list(page).get(i).getLast_name());
 
-        if(mUsersDomain.getViewCount(mUsersDomain.list(page).get(i).getId()) >= 1){
+        viewHolder.txtIdUser.setText("ID: " + usersList.get(i).getId().toString());
+        viewHolder.txtNameAndLast.setText(usersList.get(i).getFirst_name() + " " + usersList.get(i).getLast_name());
+
+        if (mUsersDomain.getViewCount(usersList.get(i).getId()) >= 1) {
             viewHolder.txtIdUser.setTypeface(null, Typeface.BOLD);
         }
     }
 
     @Override
     public int getItemCount() {
-        return mUsersDomain.list(page).size();
+
+        return usersList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -73,12 +78,15 @@ public class RecyclerViewUsersAdapter extends RecyclerView.Adapter<RecyclerViewU
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            mUsersDomain.incrementViewCount(getAdapterPosition());
-            Intent intent = new Intent(mcontext , UserDetailActivity.class);
+            mUsersDomain.incrementViewCount(usersList.get(getAdapterPosition()).getId());
+            Intent intent = new Intent(mcontext, UserDetailActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Users user = mUsersDomain.list(page).get(position);
+            Users user = usersList.get(position);
             intent.putExtra(TAG_USER, user);
-            mcontext.startActivity(intent);
+            intent.putExtra(MainActivity.TAG_NUMBER_PAGE, number_page);
+            Activity activity = (Activity) mcontext;
+            activity.startActivityForResult(intent,MainActivity.REQUEST_PAGE);
+
         }
     }
 }

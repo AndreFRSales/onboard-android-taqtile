@@ -1,5 +1,6 @@
 package onboardandroid.taqtile.onboardandroidtaqtile.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import butterknife.ButterKnife;
 import onboardandroid.taqtile.onboardandroidtaqtile.Activities.Adapters.RecyclerViewUsersAdapter;
 import onboardandroid.taqtile.onboardandroidtaqtile.Activities.Views.UserDetailView;
 import onboardandroid.taqtile.onboardandroidtaqtile.DAOUsers.UsersDomain;
+import onboardandroid.taqtile.onboardandroidtaqtile.Database.UsersHelper;
 import onboardandroid.taqtile.onboardandroidtaqtile.Entities.Users;
 import onboardandroid.taqtile.onboardandroidtaqtile.R;
 import onboardandroid.taqtile.onboardandroidtaqtile.Helper.ResourcesHelper;
@@ -24,12 +26,16 @@ public class UserDetailActivity extends BaseActivity {
     @Bind(R.id.container_user_details)
     LinearLayout containerUserDetails;
 
+    public Integer page;
+    public static final String TAG_RESULT_PAGE = "result_page";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
         ButterKnife.bind(this);
         user = (Users) getIntent().getExtras().getSerializable(RecyclerViewUsersAdapter.TAG_USER);
+        page = getIntent().getExtras().getInt(MainActivity.TAG_NUMBER_PAGE);
         createToolbarWithBack(user.getFirst_name());
         creatingFields();
 
@@ -56,7 +62,7 @@ public class UserDetailActivity extends BaseActivity {
 
     private Field[] sortFields(Field[] fields) {
 
-        ArrayList<String> list = UsersDomain.genereateOrderOfUsersFields();
+        ArrayList<String> list = UsersHelper.genereateOrderOfUsersFields();
         List<Field> auxListField = new ArrayList<>();
 
         for (String fieldName: list) {
@@ -87,10 +93,24 @@ public class UserDetailActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+        setResultPage();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setResultPage(){
+        Intent intent = new Intent();
+        intent.putExtra(TAG_RESULT_PAGE, page);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResultPage();
     }
 }

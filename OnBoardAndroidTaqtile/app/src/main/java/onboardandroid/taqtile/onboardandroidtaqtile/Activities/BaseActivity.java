@@ -1,5 +1,7 @@
 package onboardandroid.taqtile.onboardandroidtaqtile.Activities;
 
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,6 +13,13 @@ import onboardandroid.taqtile.onboardandroidtaqtile.R;
 public class BaseActivity extends AppCompatActivity {
 
     public Toolbar toolbar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
 
     public Toolbar createToolbar(String title) {
         toolbar = (Toolbar) findViewById(R.id.toolbar);

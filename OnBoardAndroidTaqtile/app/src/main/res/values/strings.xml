@@ -17,5 +17,11 @@
     <string name="avatar">Avatar</string>
     <string name="first_name">First Name</string>
 
+    <!-- Pages -->
+    <string name="page_first">Page one</string>
+    <string name="page_second">Page two</string>
+    <string name="page_third">Page three</string>
+    <string name="page_forty">Page four</string>
+
 
 </resources>
